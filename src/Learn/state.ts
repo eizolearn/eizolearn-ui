@@ -1,24 +1,34 @@
-import { writable } from 'svelte/store';
+import { writable } from 'svelte/store'
+import type { TranscripedAlphabet } from './alphabets'
 
+type Value = 'learnt' | 'learning'
+const THRESHOLD = 2
 
-type State = "input" | "success" | "failure"
-const TIMEOUT = 1_000
+export type State = ReturnType<typeof constructState>
+export const constructState = (alphabet: TranscripedAlphabet) => {
+    const successHistory: Map<string, number> = new Map()
+    const isLearnt = () =>
+        successHistory.size === alphabet.length() &&
+        [...successHistory.values()].every(successes => successes >= THRESHOLD)
 
-export const learningState = (() => {
-    const { subscribe, set } = writable<State>("input");
+    const { subscribe, set } = writable<Value>('learning')
+    let value = false
+
     return {
         subscribe,
-        succeed() {
-            set("success")
-            setTimeout(() => {
-                set("input")
-            }, TIMEOUT)
+        hit(symbol: string) {
+            successHistory.set(symbol, (successHistory.get(symbol) ?? 0) + 1)
+            if (!value && isLearnt()) {
+                value = true
+                set('learnt')
+            }
         },
-        fail() {
-            set("failure")
-            setTimeout(() => {
-                set("input")
-            }, TIMEOUT)
+        miss() {
+            successHistory.clear()
+            if (value) {
+                value = false
+                set('learning')
+            }
         },
-    };
-})()
+    }
+}
