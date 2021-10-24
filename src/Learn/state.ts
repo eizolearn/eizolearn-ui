@@ -5,7 +5,7 @@ type State = "input" | "success" | "failure"
 const TIMEOUT = 1_000
 
 export const learningState = (() => {
-    const { subscribe, set, update } = writable<State>("input");
+    const { subscribe, set } = writable<State>("input");
     return {
         subscribe,
         succeed() {

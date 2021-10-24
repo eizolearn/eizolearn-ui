@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Header from "./components/Header/Header.svelte";
-    import Learn from "./pages/Learn.svelte";
+    import Header from "./Header/Component.svelte";
+    import Learn from "./Learn/Component.svelte";
 
 </script>
 
