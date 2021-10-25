@@ -14,6 +14,11 @@ module.exports = {
             symbol: '15rem',
             input: '1.3rem',
         },
+        extend: {
+            height: {
+                page: 'calc(100% - 3.5rem)',
+            },
+        },
     },
     variants: {
         extend: {},
