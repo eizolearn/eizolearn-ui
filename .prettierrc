@@ -1,0 +1,17 @@
+printWidth: 120
+tabWidth: 4
+useTabs: false
+semi: false
+singleQuote: true
+quoteProps: as-needed
+trailingComma: all
+bracketSpacing: true
+bracketSameLine: true
+arrowParens: avoid
+htmlWhitespaceSensitivity: css
+endOfLine: lf
+
+svelteSortOrder: options-scripts-styles-markup
+svelteStrictMode: true
+svelteAllowShorthand: true
+svelteIndentScriptAndStyle: true
