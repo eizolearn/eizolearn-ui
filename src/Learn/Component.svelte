@@ -11,8 +11,8 @@
     let inputState: TranscriptionInputState
     let currentLetter: TranscripedSymbol = alphabet.getRandom()
 
-    $: success = $inputState === 'success'
-    $: failure = $inputState === 'failure'
+    $: isSuccess = $inputState === 'success'
+    $: isFailure = $inputState === 'failure'
 
     onMount(() => {
         inputState.subscribe(value => {
@@ -28,23 +28,23 @@
 </script>
 
 <style>
-    .success {
+    .isSuccess {
         @apply bg-success;
     }
-    .failure {
+    .isFailure {
         @apply bg-failure;
     }
 </style>
 
-<div class="flex flex-col justify-center items-center text-primary mx-auto object-contain" class:success class:failure>
+<div
+    class="flex flex-col justify-center items-center text-primary mx-auto object-contain"
+    class:isSuccess
+    class:isFailure
+>
     <span class="text-symbol">{currentLetter.symbol}</span>
     <TranscriptionInput currentTranscription="{currentLetter.transcription}" bind:inputState />
 
-    {#if failure}
+    {#if isFailure}
         <h1>{currentLetter.transcription}</h1>
-    {/if}
-
-    {#if $state === 'learnt'}
-        <h1>You won!!!</h1>
     {/if}
 </div>

@@ -10,7 +10,7 @@
     let inputField: { value: string }
     let transcriptionInput = ''
 
-    $: failure = $inputState === 'failure'
+    $: isFailure = $inputState === 'failure'
 
     inputState.subscribe(value => {
         if (value === 'input' && inputField) {
@@ -30,7 +30,7 @@
 </script>
 
 <style>
-    .failure {
+    .isFailure {
         @apply line-through;
     }
 </style>
@@ -43,14 +43,14 @@
         size="4"
         maxlength="5"
         class="round flex-grow text-center focus:outline-none"
-        class:failure
+        class:isFailure
     />
 
     {#if $inputState === 'input'}
         <Enter class="mr-1" />
     {:else if $inputState === 'success'}
         <CheckMark class="mr-1" />
-    {:else if failure}
+    {:else if isFailure}
         <Cross class="mr-1" />
     {/if}
 </div>
