@@ -6,10 +6,12 @@
     const dispatch = createEventDispatcher<{ refresh: void }>()
 </script>
 
-<div class="flex flex-col justify-center items-center mx-auto object-contain">
-    <CheckMark viewBox="0 0 20 20" class="w-36 h-36 fill-current" />
-    <h1>Learning Completed!</h1>
-    <div on:click="{() => dispatch('refresh')}">
+<div class="h-page flex flex-col justify-around items-center mx-auto object-contain">
+    <div>
+        <CheckMark viewBox="0 0 20 20" class="w-36 h-36 fill-current" />
+        <h1>Learning Completed!</h1>
+    </div>
+    <div on:click="{() => dispatch('refresh')}" class="mb-40">
         <Refresh class="" />
     </div>
 </div>

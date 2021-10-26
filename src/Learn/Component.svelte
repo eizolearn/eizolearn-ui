@@ -36,11 +36,7 @@
     }
 </style>
 
-<div
-    class="flex flex-col justify-center items-center text-primary mx-auto object-contain"
-    class:isSuccess
-    class:isFailure
->
+<div class="h-page flex flex-col items-center text-primary mx-auto object-contain" class:isSuccess class:isFailure>
     <span class="text-symbol">{currentLetter.symbol}</span>
     <TranscriptionInput currentTranscription="{currentLetter.transcription}" bind:inputState />
 

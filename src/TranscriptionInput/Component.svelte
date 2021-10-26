@@ -20,7 +20,7 @@
 
     const checkTranscription = (event: KeyboardEvent) => {
         if (event.code === 'Enter') {
-            if (transcriptionInput.toLocaleLowerCase() === currentTranscription) {
+            if (transcriptionInput.toLocaleLowerCase().trim() === currentTranscription) {
                 inputState.succeed()
             } else {
                 inputState.fail()
@@ -35,14 +35,15 @@
     }
 </style>
 
-<div class="flex items-center rounded-lg text-input border border-primary w-60 h-9 mx-auto">
+<div class="flex items-center bg-white rounded-lg text-input border border-primary w-60 h-9 mx-auto">
     <input
         bind:this="{inputField}"
         bind:value="{transcriptionInput}"
+        disabled="{$inputState !== 'input'}"
         on:keyup="{checkTranscription}"
         size="4"
         maxlength="5"
-        class="round flex-grow text-center focus:outline-none"
+        class="m-1 round flex-grow text-center focus:outline-none"
         class:isFailure
     />
 
