@@ -9,9 +9,10 @@ module.exports = {
             white: '#FFFFFF',
             success: '#99F9BC',
             failure: '#F2A68E',
+            skipped: '#C6CBCD',
         },
         fontSize: {
-            symbol: '15rem',
+            symbol: '14rem',
             input: '1.3rem',
         },
         extend: {

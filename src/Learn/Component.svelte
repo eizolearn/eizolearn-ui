@@ -13,6 +13,7 @@
 
     $: isSuccess = $inputState === 'success'
     $: isFailure = $inputState === 'failure'
+    $: isSkipped = $inputState === 'skipped'
 
     onMount(() => {
         inputState.subscribe(value => {
@@ -20,7 +21,7 @@
                 currentLetter = alphabet.getRandom()
             } else if (value === 'success') {
                 state.hit(currentLetter.symbol)
-            } else if (value === 'failure') {
+            } else if (value === 'failure' || value === 'skipped') {
                 state.miss()
             }
         })
@@ -34,13 +35,21 @@
     .isFailure {
         @apply bg-failure;
     }
+    .isSkipped {
+        @apply bg-skipped;
+    }
 </style>
 
-<div class="h-page flex flex-col items-center text-primary mx-auto object-contain" class:isSuccess class:isFailure>
+<div
+    class="h-page flex flex-col items-center text-primary mx-auto object-contain"
+    class:isSuccess
+    class:isFailure
+    class:isSkipped
+>
     <span class="text-symbol">{currentLetter.symbol}</span>
     <TranscriptionInput currentTranscription="{currentLetter.transcription}" bind:inputState />
 
-    {#if isFailure}
-        <h1>{currentLetter.transcription}</h1>
+    {#if isFailure || isSkipped}
+        <p class="text-input">{currentLetter.transcription}</p>
     {/if}
 </div>
