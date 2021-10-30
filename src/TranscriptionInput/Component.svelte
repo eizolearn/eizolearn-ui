@@ -4,54 +4,45 @@
     import Cross from './cross.svg'
     import SkippedCross from './skipped.svg'
     import { constructState } from './state'
-    import { onMount } from 'svelte'
+
+    const MAX_INPUT_LENGTH = 5
 
     export let currentTranscription: string
     export const inputState = constructState()
 
-    let inputField //TODO typization
     let transcriptionInput = ''
-    let maxLength = 5
+    let maxLength = MAX_INPUT_LENGTH
 
     $: isFailure = $inputState === 'failure' || $inputState === 'skipped'
-    $: if (transcriptionInput.toLocaleLowerCase().trim() === currentTranscription) {
-        maxLength = transcriptionInput.length
-        inputState.succeed()
-    }
+    $: (() => {
+        if (transcriptionInput.toLocaleLowerCase().trim() === currentTranscription) {
+            maxLength = transcriptionInput.length
+            inputState.succeed()
+        } else if (transcriptionInput.length > maxLength) {
+            transcriptionInput = transcriptionInput.substring(0, maxLength)
+        }
+    })()
 
-    $: if (inputField && $inputState === 'input') {
-        maxLength = 5
+    $: if ($inputState === 'input') {
+        maxLength = MAX_INPUT_LENGTH
     }
 
     inputState.subscribe(value => {
-        if (value === 'input' && inputField) {
+        if (value === 'input') {
             transcriptionInput = ''
         }
     })
 
     const keyPress = (event: KeyboardEvent) => {
-        if (transcriptionInput.length > maxLength) {
-            transcriptionInput = transcriptionInput.substring(0, maxLength)
-        }
-        if (event.code === 'Enter' || event.key === 'Enter') {
-            checkTranscription()
-        }
-    }
-
-    const checkTranscription = () => {
-        maxLength = transcriptionInput.length
-        if (transcriptionInput.toLocaleLowerCase().trim() === currentTranscription) {
-            inputState.succeed()
-        } else if (transcriptionInput.trim() === '') {
-            console.log('skipped')
-            inputState.skipped()
-        } else {
-            inputState.fail()
+        if ($inputState === 'input' && (event.code === 'Enter' || event.key === 'Enter')) {
+            maxLength = transcriptionInput.length
+            if (transcriptionInput.trim() === '') {
+                inputState.skipped()
+            } else {
+                inputState.fail()
+            }
         }
     }
-    onMount(() => {
-        maxLength = 5
-    })
 </script>
 
 <style>
@@ -62,7 +53,6 @@
 
 <div class="flex items-center bg-white rounded-lg text-input border border-primary w-60 h-9 mx-auto">
     <input
-        bind:this="{inputField}"
         bind:value="{transcriptionInput}"
         on:keyup="{keyPress}"
         size="4"
