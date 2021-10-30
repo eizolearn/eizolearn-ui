@@ -1,0 +1,30 @@
+root: true
+parser: '@typescript-eslint/parser'
+env:
+  browser: true
+  es6: true
+  node: true
+plugins:
+  - '@typescript-eslint'
+  - svelte3
+extends:
+  - eslint:recommended
+  - plugin:@typescript-eslint/recommended
+  - plugin:@typescript-eslint/recommended-requiring-type-checking
+  - prettier
+overrides:
+  - files:
+    - '*.js'
+    - '*.ts'
+  - files:
+    - '*.svelte'
+    processor: svelte3/svelte3
+settings:
+  svelte3/typescript: true
+parserOptions: 
+  ecmaVersion: 2019
+  sourceType: module
+  tsconfigRootDir: .
+  project: ['./tsconfig.json']
+  extraFileExtensions: ['.svelte']
+

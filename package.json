@@ -6,15 +6,20 @@
         "build": "rollup -c",
         "dev": "rollup -c -w",
         "start": "sirv public --no-clear",
-        "check": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings --fail-on-hints && prettier --plugin-search-dir=. --check .",
-        "fix": "prettier --plugin-search-dir=. --write ."
+        "check": "svelte-check --tsconfig ./tsconfig.json --fail-on-warnings --fail-on-hints && prettier --plugin-search-dir=. --check '{public,src}/**/*.{css,html,js,svelte}' && eslint src",
+        "fix": "prettier --plugin-search-dir=. --write '{public,src}/**/*.{css,html,js,svelte}' && eslint --fix src"
     },
     "devDependencies": {
         "@rollup/plugin-commonjs": "^21.0.1",
         "@rollup/plugin-node-resolve": "^13.0.6",
         "@rollup/plugin-typescript": "^8.3.0",
         "@tsconfig/svelte": "^2.0.1",
+        "@typescript-eslint/eslint-plugin": "^5.2.0",
+        "@typescript-eslint/parser": "^5.2.0",
         "autoprefixer": "^10.3.7",
+        "eslint": "^8.1.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-svelte3": "^3.2.1",
         "postcss": "^8.3.11",
         "prettier": "^2.4.1",
         "prettier-plugin-svelte": "^2.4.0",

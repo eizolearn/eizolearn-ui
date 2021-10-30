@@ -11,7 +11,12 @@
         <CheckMark viewBox="0 0 20 20" class="w-36 h-36 fill-current" />
         <h1>Learning Completed!</h1>
     </div>
-    <div on:click="{() => dispatch('refresh')}" class="mb-40">
+    <div
+        on:click="{() => {
+            dispatch('refresh')
+        }}"
+        class="mb-40"
+    >
         <Refresh class="" />
     </div>
 </div>
