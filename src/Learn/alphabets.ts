@@ -23,7 +23,7 @@ export const TEST: TranscripedAlphabet = new TranscripedAlphabet([['a', 'a']])
 // prettier-ignore
 export const KATAKANA: TranscripedAlphabet = new TranscripedAlphabet([
     ['ア', 'a'], ['イ', 'i'], ['ウ', 'u'], ['エ', 'e'], ['オ', 'o'],
-    ['ハ', 'ha'], ['ヒ', 'hi'], ['フ', 'hu'], ['ヘ', 'he'], ['ホ', 'ho'],
+    ['ハ', 'ha'], ['ヒ', 'hi'], ['フ', 'fu'], ['ヘ', 'he'], ['ホ', 'ho'],
     ['バ', 'ba'], ['ビ', 'bi'], ['ブ', 'bu'], ['ベ', 'be'], ['ボ', 'bo'],
     ['パ', 'pa'], ['ピ', 'pi'], ['プ', 'pu'], ['ペ', 'pe'], ['ポ', 'po'],
     ['カ', 'ka'], ['キ', 'ki'], ['ク', 'ku'], ['ケ', 'ke'], ['コ', 'ko'],
