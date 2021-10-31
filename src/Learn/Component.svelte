@@ -50,6 +50,6 @@
     <TranscriptionInput currentTranscription="{currentLetter.transcription}" bind:inputState />
 
     {#if isFailure || isSkipped}
-        <p class="text-input">{currentLetter.transcription}</p>
+        <p class="text-input">{currentLetter.transcription.toUpperCase()}</p>
     {/if}
 </div>
