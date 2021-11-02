@@ -11,6 +11,10 @@ module.exports = {
             failure: '#F2A68E',
             skipped: '#C6CBCD',
         },
+        gradientColorStops: theme => ({
+            ...theme('colors'),
+            'pine-green': '#027478'
+        }),
         fontSize: {
             symbol: '14rem',
             input: '1.3rem',
@@ -19,6 +23,7 @@ module.exports = {
         extend: {
             height: {
                 page: 'calc(100% - 3.5rem)',
+                header: '70px'
             },
         },
     },
