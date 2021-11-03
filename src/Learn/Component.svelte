@@ -31,18 +31,27 @@
 
 <style>
     .isSuccess {
-        @apply bg-success;
+        @apply bg-gradient-to-t;
+        @apply from-success;
+        @apply via-success;
+        @apply to-white;
     }
     .isFailure {
-        @apply bg-failure;
+        @apply bg-gradient-to-t;
+        @apply from-failure;
+        @apply via-failure;
+        @apply to-white;
     }
     .isSkipped {
-        @apply bg-skipped;
+        @apply bg-gradient-to-t;
+        @apply from-skipped;
+        @apply via-skipped;
+        @apply to-white;
     }
 </style>
 
 <div
-    class="h-page flex flex-col items-center text-primary mx-auto object-contain relative"
+    class="h-screen pt-header flex flex-col items-center text-primary mx-auto object-contain relative"
     class:isSuccess
     class:isFailure
     class:isSkipped

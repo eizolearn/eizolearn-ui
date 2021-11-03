@@ -6,6 +6,6 @@
     export const score = constructScore(inputState)
 </script>
 
-<span class="text-score text-center absolute left-0 top-0 w-20">
+<span class="mt-header text-score text-center absolute left-0 top-0 w-20 font-nunito">
     {$score}
 </span>
