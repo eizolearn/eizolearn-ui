@@ -5,7 +5,7 @@
     import { KATAKANA } from './Learn/alphabets'
     import Finish from './Finish/Component.svelte'
 
-    let learnState: LearnState
+    let learnState: LearnState | undefined
 </script>
 
 <style lang="postcss" global>

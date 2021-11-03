@@ -14,6 +14,7 @@ module.exports = {
         fontSize: {
             symbol: '14rem',
             input: '1.3rem',
+            score: '4rem',
         },
         extend: {
             height: {
