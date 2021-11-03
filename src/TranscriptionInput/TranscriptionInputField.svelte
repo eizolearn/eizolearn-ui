@@ -1,11 +1,13 @@
 <script lang="ts">
+    import type { State } from './state'
+
     export let transcriptionInput: string
     export let currentTranscription: string
-    export let inputState
+    export let inputState: State
     export let MAX_INPUT_LENGTH: number
 
     let localMaxLength: number = MAX_INPUT_LENGTH
-    $: isFailure = inputState === 'failure' || inputState === 'skipped'
+    $: isFailure = $inputState === 'failure' || $inputState === 'skipped'
 
     $: (() => {
         if (transcriptionInput.toLocaleLowerCase().trim() === currentTranscription) {

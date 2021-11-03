@@ -4,6 +4,7 @@
     import { constructState } from './state'
     import TranscriptionInput from '../TranscriptionInput/Component.svelte'
     import type { State as TranscriptionInputState } from '../TranscriptionInput/state'
+    import Score from '../Score/Component.svelte'
 
     export let alphabet: TranscripedAlphabet
     export const state = constructState(alphabet)
@@ -41,11 +42,14 @@
 </style>
 
 <div
-    class="h-page flex flex-col items-center text-primary mx-auto object-contain"
+    class="h-page flex flex-col items-center text-primary mx-auto object-contain relative"
     class:isSuccess
     class:isFailure
     class:isSkipped
 >
+    {#if inputState}
+        <Score inputState="{inputState}" />
+    {/if}
     <span class="text-symbol">{currentLetter.symbol}</span>
     <TranscriptionInput currentTranscription="{currentLetter.transcription}" bind:inputState />
 
