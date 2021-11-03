@@ -17,13 +17,19 @@ module.exports = {
         }),
         fontSize: {
             symbol: '14rem',
+            button: '1.6rem',
             input: '1.3rem',
             score: '4rem',
         },
+        fontFamily: {
+            nunito: 'Nunito',
+        },
         extend: {
             height: {
-                page: 'calc(100% - 3.5rem)',
-                header: '70px'
+                page: 'calc(100vh - 70px)'
+            },
+            spacing: {
+                header: '70px',
             },
         },
     },
