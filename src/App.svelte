@@ -3,17 +3,18 @@
     import Learn from './Learn/Component.svelte'
     import type { State as LearnState } from './Learn/state'
     import type { State as SettingsState } from './Settings/state'
-    import { KATAKANA } from './Learn/alphabets'
+    import Alphabets from './Alphabet/alphabet'
     import Finish from './Finish/Component.svelte'
     import Settings from './Settings/Component.svelte'
     import { tick } from 'svelte'
 
     let learnState: LearnState | undefined
-    let settingsState: SettingsState
+    let settingsState: SettingsState | undefined
     let inLearning = true
 
     const restart = async () => {
         inLearning = false
+        learnState = undefined
         await tick()
         inLearning = true
     }
@@ -32,7 +33,7 @@
         {/if}
         {#if inLearning}
             {#if !learnState || $learnState === 'learning'}
-                <Learn alphabet="{KATAKANA}" bind:state="{learnState}" />
+                <Learn alphabet="{Alphabets.KATAKANA.english}" bind:state="{learnState}" />
             {:else}
                 <Finish
                     on:refresh="{() => {
