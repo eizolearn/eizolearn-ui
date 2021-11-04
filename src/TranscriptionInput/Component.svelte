@@ -5,10 +5,11 @@
     import SkippedCross from './skipped.svg'
     import { constructState } from './state'
     import TranscriptionInputField from './TranscriptionInputField.svelte'
+    import type { TranscripedSymbol } from '../Alphabet/alphabet'
 
     const MAX_INPUT_LENGTH = 5
 
-    export let currentTranscription: string
+    export let currentTranscripedSymbol: TranscripedSymbol
     export const inputState = constructState()
 
     let transcriptionInput = ''
@@ -19,11 +20,11 @@
         MAX_INPUT_LENGTH="{MAX_INPUT_LENGTH}"
         transcriptionInput="{transcriptionInput}"
         inputState="{inputState}"
-        currentTranscription="{currentTranscription}"
+        currentTranscripedSymbol="{currentTranscripedSymbol}"
     />
     {#if $inputState === 'input'}
         <Enter class="mr-1" />
-    {:else if $inputState === 'success'}
+    {:else if $inputState === 'success' || $inputState === 'success with suggestion'}
         <CheckMark class="mr-1" />
     {:else if $inputState === 'skipped'}
         <SkippedCross class="mr-1" />

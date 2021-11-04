@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store'
-import type { TranscripedAlphabet } from './alphabets'
+import type { TranscripedAlphabet } from '../Alphabet/alphabet'
 
 type Value = 'learnt' | 'learning'
 const THRESHOLD = 2
@@ -8,7 +8,7 @@ export type State = ReturnType<typeof constructState>
 export const constructState = (alphabet: TranscripedAlphabet) => {
     const successHistory: Map<string, number> = new Map()
     const isLearnt = () =>
-        successHistory.size === alphabet.length() &&
+        successHistory.size === alphabet.length &&
         [...successHistory.values()].every(successes => successes >= THRESHOLD)
 
     const { subscribe, set } = writable<Value>('learning')

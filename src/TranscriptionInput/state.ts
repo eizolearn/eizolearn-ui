@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store'
 
-type Value = 'input' | 'success' | 'failure' | 'skipped'
+type Value = 'input' | 'success' | 'success with suggestion' | 'failure' | 'skipped'
 const TIMEOUT = 1_000
 const SUCCESS_TIMEOUT = 500
 
@@ -12,6 +12,13 @@ export const constructState = () => {
         subscribe,
         succeed() {
             set('success')
+
+            setTimeout(() => {
+                set('input')
+            }, SUCCESS_TIMEOUT)
+        },
+        succeedWithSuggestion() {
+            set('success with suggestion')
 
             setTimeout(() => {
                 set('input')

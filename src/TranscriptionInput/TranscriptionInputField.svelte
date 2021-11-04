@@ -1,8 +1,9 @@
 <script lang="ts">
     import type { State } from './state'
+    import type { TranscripedSymbol } from '../Alphabet/alphabet'
 
     export let transcriptionInput: string
-    export let currentTranscription: string
+    export let currentTranscripedSymbol: TranscripedSymbol
     export let inputState: State
     export let MAX_INPUT_LENGTH: number
 
@@ -10,7 +11,7 @@
     $: isFailure = $inputState === 'failure' || $inputState === 'skipped'
 
     $: (() => {
-        if (transcriptionInput.toLocaleLowerCase().trim() === currentTranscription) {
+        if (currentTranscripedSymbol.validateTranscription(transcriptionInput) === 'correct') {
             localMaxLength = transcriptionInput.length
             inputState.succeed()
         } else if (transcriptionInput.length > localMaxLength) {
@@ -22,13 +23,20 @@
         localMaxLength = MAX_INPUT_LENGTH
     }
 
-    const keyUp = (event: KeyboardEvent) => {
+    const keyUp = (event: KeyboardEvent): void => {
         if ($inputState === 'input' && (event.code === 'Enter' || event.key === 'Enter')) {
             localMaxLength = transcriptionInput.length
             if (transcriptionInput.trim() === '') {
-                inputState.skipped()
-            } else {
-                inputState.fail()
+                return inputState.skipped()
+            }
+
+            switch (currentTranscripedSymbol.validateTranscription(transcriptionInput)) {
+                case 'correct':
+                    return inputState.succeed()
+                case 'noncanonical':
+                    return inputState.succeedWithSuggestion()
+                case 'incorrect':
+                    return inputState.fail()
             }
         }
     }

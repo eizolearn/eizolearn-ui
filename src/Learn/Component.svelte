@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte'
-    import type { TranscripedSymbol, TranscripedAlphabet } from './alphabets'
+    import type { TranscripedSymbol, TranscripedAlphabet } from '../Alphabet/alphabet'
     import { constructState } from './state'
     import TranscriptionInput from '../TranscriptionInput/Component.svelte'
     import type { State as TranscriptionInputState } from '../TranscriptionInput/state'
@@ -10,18 +10,19 @@
     export const state = constructState(alphabet)
 
     let inputState: TranscriptionInputState
-    let currentLetter: TranscripedSymbol = alphabet.getRandom()
+    let currentTranscripedSymbol: TranscripedSymbol = alphabet.random
 
     $: isSuccess = $inputState === 'success'
+    $: isSuccessWithSuggestion = $inputState === 'success with suggestion'
     $: isFailure = $inputState === 'failure'
     $: isSkipped = $inputState === 'skipped'
 
     onMount(() => {
         inputState.subscribe(value => {
             if (value === 'input') {
-                currentLetter = alphabet.getRandom()
-            } else if (value === 'success') {
-                state.hit(currentLetter.symbol)
+                currentTranscripedSymbol = alphabet.random
+            } else if (value === 'success' || value === 'success with suggestion') {
+                state.hit(currentTranscripedSymbol.symbol)
             } else if (value === 'failure' || value === 'skipped') {
                 state.miss()
             }
@@ -52,17 +53,17 @@
 
 <div
     class="h-screen pt-header flex flex-col items-center text-primary mx-auto object-contain relative"
-    class:isSuccess
+    class:isSuccess="{isSuccess || isSuccessWithSuggestion}"
     class:isFailure
     class:isSkipped
 >
     {#if inputState}
         <Score inputState="{inputState}" />
     {/if}
-    <span class="text-symbol">{currentLetter.symbol}</span>
-    <TranscriptionInput currentTranscription="{currentLetter.transcription}" bind:inputState />
 
-    {#if isFailure || isSkipped}
-        <p class="text-input">{currentLetter.transcription.toUpperCase()}</p>
-    {/if}
+    <span class="text-symbol">{currentTranscripedSymbol.symbol}</span>
+    <p class="{isFailure || isSkipped || isSuccessWithSuggestion ? '' : 'invisible'} text-transcription">
+        {currentTranscripedSymbol.displayedTranscription}
+    </p>
+    <TranscriptionInput currentTranscripedSymbol="{currentTranscripedSymbol}" bind:inputState />
 </div>

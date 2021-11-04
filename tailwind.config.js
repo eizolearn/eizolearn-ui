@@ -16,7 +16,8 @@ module.exports = {
             'pine-green': '#027478'
         }),
         fontSize: {
-            symbol: '14rem',
+            symbol: ['14rem', '14rem'],
+            transcription: ['2rem', '2rem'],
             button: '1.6rem',
             input: '1.3rem',
             score: '4rem',
