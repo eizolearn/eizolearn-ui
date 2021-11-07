@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { constructState, State as SettingsState } from './state'
     import { createEventDispatcher } from 'svelte'
+    import { constructState, State as SettingsState } from './state'
 
     const dispatch = createEventDispatcher<{ restart: void }>()
     export let state: SettingsState = constructState()
@@ -12,7 +12,7 @@
 </script>
 
 {#if $state === 'open'}
-    <div class="font-nunito bg-primary absolute z-10 top-header h-page left-0 w-screen h-screen bg-white">
+    <div class="font-nunito bg-primary absolute z-20 top-header h-page w-screen">
         <div></div>
         <div
             class="absolute flex items-center justify-center bottom-0 w-screen h-header bg-gradient-to-t from-pine-green to-primary"

@@ -1,29 +1,17 @@
 <script lang="ts">
-    import Logo from './logo.svg'
-    import SettingsIcon from './settings-icon.svg'
-    import CloseIcon from './close-icon.svg'
     import type { State as SettingsState } from '../Settings/state'
+    import Logo from './logo.svg'
+    import SettingsIcon from '../Settings/Icon.svelte'
 
     export let settingsState: SettingsState
-
-    const openSettings = () => {
-        settingsState.open()
-    }
-
-    const closeSettings = () => {
-        settingsState.close()
-    }
 </script>
 
-<div
-    class="absolute top-0 flex z-20 w-screen h-header bg-primary items-center bg-gradient-to-t from-primary to-pine-green"
->
-    <Logo class="mx-auto" />
+<div class="sticky top-0 z-50 h-header w-screen flex justify-between bg-gradient-to-t from-primary to-pine-green">
+    <span class="w-16"></span>
+
+    <Logo class="self-center" />
+
+    <span class="flex items-center justify-center h-full w-16">
+        <SettingsIcon state="{settingsState}" />
+    </span>
 </div>
-<span class="z-20 h-header flex items-center cursor-pointer absolute top-0 right-2">
-    {#if $settingsState === 'close'}
-        <span on:click="{openSettings}"> <SettingsIcon /> </span>
-    {:else}
-        <span on:click="{closeSettings}"> <CloseIcon /> </span>
-    {/if}
-</span>

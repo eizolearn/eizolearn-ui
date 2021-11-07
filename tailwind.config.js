@@ -21,6 +21,8 @@ module.exports = {
             button: '1.6rem',
             input: '1.3rem',
             score: '4rem',
+            'reference-symbol': '2rem',
+            'reference-transcription': '1.2rem',
         },
         fontFamily: {
             nunito: 'Nunito',

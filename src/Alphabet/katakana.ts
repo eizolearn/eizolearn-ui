@@ -10,7 +10,7 @@ const lastVowelSort = (transcriptions: Transcription) => {
         case 'u': return 2
         case 'e': return 3
         case 'o': return 4
-        default: return 3
+        default: return 2
     }
 }
 
@@ -116,7 +116,7 @@ export const KATAKANA: InternalAlphabet = Object.fromEntries([{
     {
         'ン': { english: { displayed: ['n'], accepted: ['m'] } },
     }
-].flatMap(kana => Object.entries(kana).map(([symbol, transcriptions]: [string, Transcription], i) => {
+].flatMap((kana, i) => Object.entries(kana).map(([symbol, transcriptions]: [string, Transcription]) => {
     return [symbol, {
         ...transcriptions,
         displayPositioning: {
