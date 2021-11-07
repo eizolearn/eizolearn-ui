@@ -3,5 +3,7 @@
 .vscode/
 .idea/
 .pnpm-debug.log
+.firebase/
+firebase-debug-log
 
 .DS_Store

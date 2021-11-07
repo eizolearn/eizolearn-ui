@@ -1,0 +1,18 @@
+{
+  "hosting": {
+    "public": "public",
+    "site": "eizolearn",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "LICENSE"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
