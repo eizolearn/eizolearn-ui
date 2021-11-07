@@ -1,15 +1,19 @@
 <script lang="ts">
     import { onMount } from 'svelte'
     import type { TranscripedSymbol, TranscripedAlphabet } from '../Alphabet/alphabet'
-    import { constructState } from './state'
-    import TranscriptionInput from '../TranscriptionInput/Component.svelte'
+    import type { State as AlphabetReferenceState } from '../AlphabetReference/state'
     import type { State as TranscriptionInputState } from '../TranscriptionInput/state'
+    import { constructState } from './state'
+    import AlphabetReference from '../AlphabetReference/Component.svelte'
+    import AlphabetReferenceIcon from '../AlphabetReference/Icon.svelte'
     import Score from '../Score/Component.svelte'
+    import TranscriptionInput from '../TranscriptionInput/Component.svelte'
 
     export let alphabet: TranscripedAlphabet
     export const state = constructState(alphabet)
 
     let inputState: TranscriptionInputState
+    let alphabetReferenceState: AlphabetReferenceState
     let currentTranscripedSymbol: TranscripedSymbol = alphabet.random
 
     $: isSuccess = $inputState === 'success'
@@ -52,18 +56,31 @@
 </style>
 
 <div
-    class="h-screen pt-header flex flex-col items-center text-primary mx-auto object-contain relative"
+    class="h-page flex flex-col items-center text-primary mx-auto object-contain"
     class:isSuccess="{isSuccess || isSuccessWithSuggestion}"
     class:isFailure
     class:isSkipped
 >
-    {#if inputState}
-        <Score inputState="{inputState}" />
-    {/if}
+    <div class="w-full flex flex-nowrap justify-between items-baseline">
+        <div class="flex justify-center w-20">
+            {#if inputState}
+                <Score inputState="{inputState}" />
+            {/if}
+        </div>
 
-    <span class="text-symbol">{currentTranscripedSymbol.symbol}</span>
+        <span class="text-symbol self-end justify-self-center">{currentTranscripedSymbol.symbol}</span>
+
+        <div class="flex justify-center w-20">
+            {#if !!alphabetReferenceState}
+                <AlphabetReferenceIcon state="{alphabetReferenceState}" />
+            {/if}
+        </div>
+    </div>
+
     <p class="{isFailure || isSkipped || isSuccessWithSuggestion ? '' : 'invisible'} text-transcription">
         {currentTranscripedSymbol.displayedTranscription}
     </p>
     <TranscriptionInput currentTranscripedSymbol="{currentTranscripedSymbol}" bind:inputState />
+
+    <AlphabetReference alphabet="{alphabet}" bind:state="{alphabetReferenceState}" />
 </div>

@@ -15,9 +15,9 @@ export class TranscripedSymbol {
     constructor(
         readonly symbol: string,
         readonly transcriptions: Transcription[],
-        readonly displayPositioning?: {
-            x?: number, 
-            y?: number,
+        readonly displayPositioning: {
+            x: number, 
+            y: number,
         },
     ) {
         this.displayedTranscription = transcriptions

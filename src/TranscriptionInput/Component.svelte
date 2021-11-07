@@ -1,11 +1,11 @@
 <script lang="ts">
-    import Enter from './enter.svg'
+    import type { TranscripedSymbol } from '../Alphabet/alphabet'
+    import { constructState } from './state'
     import CheckMark from './checkmark.svg'
     import Cross from './cross.svg'
+    import Enter from './enter.svg'
     import SkippedCross from './skipped.svg'
-    import { constructState } from './state'
     import TranscriptionInputField from './TranscriptionInputField.svelte'
-    import type { TranscripedSymbol } from '../Alphabet/alphabet'
 
     const MAX_INPUT_LENGTH = 5
 

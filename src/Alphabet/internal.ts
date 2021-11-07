@@ -7,9 +7,9 @@ export type InternalAlphabet = {
             accepted?: string[],
         }
     } & {
-        displayPositioning?: {
-            x?: number,
-            y?: number,
+        displayPositioning: {
+            x: number,
+            y: number,
         }
     }
 }
