@@ -6,10 +6,10 @@
 </script>
 
 <span
-    class="h-max w-max"
+    class="h-max w-max cursor-pointer {$$props.class}"
     on:click="{() => {
         state.open()
     }}"
 >
-    <Icon />
+    <Icon class="h-full w-full" />
 </span>
