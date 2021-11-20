@@ -33,12 +33,19 @@
         border-radius: 10px;
         border: 1px solid rgba(255, 255, 255, 0.18);
     }
+    .enabledOptionButton:hover {
+        background: rgba(173, 216, 230, 0.5);
+    }
+    .enabledOptionButton:focus {
+        background: rgba(173, 216, 230, 0.7);
+    }
 </style>
 
 <div class="w-2/3 max-w-7xl flex gap-3 justify-between">
     {#each options as option}
         <input
             class="optionButton flex-grow text-button text-primary rounded-md"
+            class:enabledOptionButton="{$inputState === 'input'}"
             type="button"
             value="{option.toLocaleUpperCase()}"
             on:click="{() => dispatch('validated', currentTranscripedSymbol.validateTranscription(option))}"

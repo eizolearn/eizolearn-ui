@@ -35,15 +35,26 @@
             isModeExpanded = false
         }
     })
+
+    const changeExpandMode = (event) => {
+        if (event.target.tagName !== 'INPUT' && event.target.tagName !== 'LABEL') {
+            isModeExpanded = !isModeExpanded
+        }
+    }
 </script>
 
 <style>
+    .height-transition {
+        transition: max-height 0.5s;
+    }
     .expanded {
-        max-height: fit-content;
-        transition: max-height 0.5s ease-in;
+        max-height: 80px;
     }
     .restartButton:disabled {
         opacity: 0.2;
+    }
+    input[type="radio"] {
+        transform: translateY(-0.075em);
     }
 </style>
 
@@ -53,27 +64,27 @@
             <SettingsOption class="w-full max-w-xl flex flex-col items-baseline">
                 <div
                     class="w-full flex justify-around items-stretch"
-                    on:click="{() => {
-                        isModeExpanded = !isModeExpanded
-                    }}"
+                    on:click="{changeExpandMode}"
                 >
                     <span>{TEXT['Game input']}</span>
                     <div>
                         <span class="opacity-50">{settingsToApply.input}</span>
-                        <div class="max-h-0 overflow-hidden" class:expanded="{isModeExpanded}">
-                            <label>
+                        <div class="max-h-0 overflow-hidden height-transition" class:expanded="{isModeExpanded}">
+                            <label class="flex items-center mb-0">
                                 <input
                                     type="radio"
+                                    class="rounded-full checked:bg-secondary secondary w-5 h-5 mr-2 appearance-none border-2 border-secondary border-solid bg-transparent"
                                     bind:group="{settingsToApply.input}"
                                     name="game_mode"
                                     value="Text"
                                 />
                                 {TEXT['Text']}
-                            </label><br />
+                            </label>
 
-                            <label>
+                            <label class="flex items-center">
                                 <input
                                     type="radio"
+                                    class="rounded-full checked:bg-secondary secondary w-5 h-5 mr-2 appearance-none border-2 border-secondary border-solid bg-transparent"
                                     bind:group="{settingsToApply.input}"
                                     name="game_mode"
                                     value="Options"
@@ -82,7 +93,7 @@
                             </label><br />
                         </div>
                     </div>
-                    <ExpandMoreIcon class="{isModeExpanded ? 'rotate-180' : ''}" />
+                    <ExpandMoreIcon class="{isModeExpanded ? 'duration-200 rotate-180' : 'duration-200'}" />
                 </div>
             </SettingsOption>
         </div>
@@ -91,7 +102,7 @@
             class="absolute flex items-center justify-center bottom-0 w-screen h-header bg-gradient-to-t from-pine-green to-primary"
         >
             <input
-                class="restartButton bg-secondary text-button text-primary w-64 h-14 rounded-full"
+                class="restartButton bg-secondary text-button text-primary w-64 h-14 rounded-full duration-200"
                 type="button"
                 value="apply & restart"
                 on:click="{restart}"
