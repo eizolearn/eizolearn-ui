@@ -15,7 +15,7 @@
     const dispatch = createEventDispatcher<{ validated: TranscriptionValidationResult | 'skipped' }>()
 
     $: options = (() => {
-        const choosen = new Set<string>([currentTranscripedSymbol.suggestedTranscription.value])
+        const choosen = new Set<string>([currentTranscripedSymbol.displayedCanonicalTranscription.value])
         while (choosen.size != MAX_OPTIONS) {
             choosen.add(alphabet.random.randomTranscription.value)
         }

@@ -6,7 +6,7 @@
 </script>
 
 <span
-    class="h-max w-max cursor-pointer {$$props.class}"
+    class="h-max w-max cursor-pointer"
     on:click="{() => {
         state.open()
     }}"

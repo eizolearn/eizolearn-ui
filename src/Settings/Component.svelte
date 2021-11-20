@@ -1,6 +1,8 @@
 <script lang="ts" context="module">
     const TEXT = {
         'Game input': 'Game input',
+        'Text': 'Text',
+        'Options': 'Options'
     }
 </script>
 
@@ -66,7 +68,7 @@
                                     name="game_mode"
                                     value="Text"
                                 />
-                                Text
+                                {TEXT['Text']}
                             </label><br />
 
                             <label>
@@ -76,7 +78,7 @@
                                     name="game_mode"
                                     value="Options"
                                 />
-                                Options
+                                {TEXT['Options']}
                             </label><br />
                         </div>
                     </div>

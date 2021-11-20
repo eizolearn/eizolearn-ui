@@ -22,7 +22,7 @@ export class TranscripedSymbol {
             y: number,
         },
     ) {
-        this.suggestedTranscription = transcriptions
+        this.displayedCanonicalTranscription = transcriptions
             .find(transcription => transcription.isDisplayed)
             ?? (() => { 
                 console.error('No canonical transcription found for symbol'); 
@@ -34,7 +34,7 @@ export class TranscripedSymbol {
             .join('/')
     }
 
-    readonly suggestedTranscription: Transcription
+    readonly displayedCanonicalTranscription: Transcription
     readonly displayedTranscription: string
     validateTranscription(transcriptionToCheck: string): TranscriptionValidationResult {
         const trimmedLowercaseToCheck = transcriptionToCheck.trim().toLocaleLowerCase()

@@ -10,7 +10,13 @@ export const constructSettings = () => {
         input: 'Text',
     }
     try {
-        initialSettings = JSON.parse(localStorage.getItem('settings') ?? '') as SettingsValue
+        const locallyStoredSettings = localStorage.getItem('settings')
+        if (!!locallyStoredSettings) {
+            initialSettings = {
+                ...initialSettings,
+                ...JSON.parse(locallyStoredSettings)
+            } as SettingsValue
+        }
     } catch (err) {
         console.error(err)
         localStorage.removeItem('settings')

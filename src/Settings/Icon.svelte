@@ -6,7 +6,7 @@
     export let state: SettingsState
 </script>
 
-<span class="cursor-pointer {$$props.class}">
+<span class="cursor-pointer">
     {#if $state === 'close'}
         <span on:click="{() => state.open()}"> <SettingsIcon /> </span>
     {:else}
