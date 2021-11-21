@@ -3,6 +3,7 @@
     import type { TranscripedSymbol, TranscripedAlphabet } from '../Alphabet/alphabet'
     import type { State as AlphabetReferenceState } from '../AlphabetReference/state'
     import type { State as TranscriptionInputState } from '../TranscriptionInput/state'
+    import type { Settings } from '../Settings/settings'
     import { constructState } from './state'
     import AlphabetReference from '../AlphabetReference/Component.svelte'
     import AlphabetReferenceIcon from '../AlphabetReference/Icon.svelte'
@@ -10,6 +11,7 @@
     import TranscriptionInput from '../TranscriptionInput/Component.svelte'
 
     export let alphabet: TranscripedAlphabet
+    export let settings: Settings
     export const state = constructState(alphabet)
 
     let inputState: TranscriptionInputState
@@ -68,7 +70,9 @@
             {/if}
         </div>
 
-        <span class="text-symbol self-end justify-self-center">{currentTranscripedSymbol.symbol}</span>
+        <span class="text-symbol fold:text-symbol-fold self-end justify-self-center"
+            >{currentTranscripedSymbol.symbol}</span
+        >
 
         <div class="flex justify-center w-20">
             {#if !!alphabetReferenceState}
@@ -80,7 +84,12 @@
     <p class="{isFailure || isSkipped || isSuccessWithSuggestion ? '' : 'invisible'} text-transcription">
         {currentTranscripedSymbol.displayedTranscription}
     </p>
-    <TranscriptionInput currentTranscripedSymbol="{currentTranscripedSymbol}" bind:inputState />
+    <TranscriptionInput
+        alphabet="{alphabet}"
+        currentTranscripedSymbol="{currentTranscripedSymbol}"
+        settings="{settings}"
+        bind:inputState
+    />
 
     <AlphabetReference alphabet="{alphabet}" bind:state="{alphabetReferenceState}" />
 </div>

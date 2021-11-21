@@ -1,34 +1,42 @@
 <script lang="ts">
-    import type { TranscripedSymbol } from '../Alphabet/alphabet'
+    import type { TranscripedSymbol, TranscriptionValidationResult, TranscripedAlphabet } from '../Alphabet/alphabet'
+    import type { Settings } from '../Settings/settings'
     import { constructState } from './state'
-    import CheckMark from './checkmark.svg'
-    import Cross from './cross.svg'
-    import Enter from './enter.svg'
-    import SkippedCross from './skipped.svg'
-    import TranscriptionInputField from './TranscriptionInputField.svelte'
+    import TranscriptionOptionsInput from './TranscriptionOptionsInput.svelte'
+    import TranscriptionTextInput from './TranscriptionTextInput.svelte'
 
-    const MAX_INPUT_LENGTH = 5
-
+    export let alphabet: TranscripedAlphabet
     export let currentTranscripedSymbol: TranscripedSymbol
+    export let settings: Settings
     export const inputState = constructState()
 
-    let transcriptionInput = ''
+    const validate = (event: CustomEvent<TranscriptionValidationResult | 'skipped'>) => {
+        switch (event.detail) {
+            case 'correct':
+                return inputState.succeed()
+            case 'noncanonical':
+                return inputState.succeedWithSuggestion()
+            case 'incorrect':
+                return inputState.fail()
+            case 'skipped':
+                return inputState.skip()
+        }
+    }
 </script>
 
-<div class="flex items-center bg-white rounded-lg text-input border border-primary w-60 h-9 mx-auto">
-    <TranscriptionInputField
-        MAX_INPUT_LENGTH="{MAX_INPUT_LENGTH}"
-        transcriptionInput="{transcriptionInput}"
-        inputState="{inputState}"
+{#if $settings.input === 'Text'}
+    <div class="flex items-center bg-white rounded-lg text-input border border-primary w-60 h-9 mx-auto">
+        <TranscriptionTextInput
+            currentTranscripedSymbol="{currentTranscripedSymbol}"
+            inputState="{inputState}"
+            on:validated="{validate}"
+        />
+    </div>
+{:else if $settings.input === 'Options'}
+    <TranscriptionOptionsInput
+        alphabet="{alphabet}"
         currentTranscripedSymbol="{currentTranscripedSymbol}"
+        inputState="{inputState}"
+        on:validated="{validate}"
     />
-    {#if $inputState === 'input'}
-        <Enter class="mr-1" />
-    {:else if $inputState === 'success' || $inputState === 'success with suggestion'}
-        <CheckMark class="mr-1" />
-    {:else if $inputState === 'skipped'}
-        <SkippedCross class="mr-1" />
-    {:else if $inputState === 'failure'}
-        <Cross class="mr-1" />
-    {/if}
-</div>
+{/if}

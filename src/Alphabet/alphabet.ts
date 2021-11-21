@@ -11,6 +11,8 @@ export type Transcription = {
     readonly isDisplayed: boolean
 }
 
+export type TranscriptionValidationResult = 'correct' | 'noncanonical' | 'incorrect'
+
 export class TranscripedSymbol {
     constructor(
         readonly symbol: string,
@@ -20,20 +22,31 @@ export class TranscripedSymbol {
             y: number,
         },
     ) {
+        this.displayedCanonicalTranscription = transcriptions
+            .find(transcription => transcription.isDisplayed)
+            ?? (() => { 
+                console.error('No canonical transcription found for symbol'); 
+                return { value: '', isDisplayed: false } 
+            })()
         this.displayedTranscription = transcriptions
             .filter(transcription => transcription.isDisplayed)
             .map(transcription => transcription.value.toLocaleUpperCase())
             .join('/')
     }
 
+    readonly displayedCanonicalTranscription: Transcription
     readonly displayedTranscription: string
-    validateTranscription(transcriptionToCheck: string): 'correct' | 'noncanonical' | 'incorrect' {
+    validateTranscription(transcriptionToCheck: string): TranscriptionValidationResult {
         const trimmedLowercaseToCheck = transcriptionToCheck.trim().toLocaleLowerCase()
         switch (this.transcriptions.find(transcription => transcription.value === trimmedLowercaseToCheck)?.isDisplayed) {
             case true: return 'correct'
             case false: return 'noncanonical'
             case undefined: return 'incorrect'
         }
+    }
+
+    get randomTranscription(): Transcription {
+        return this.transcriptions[Math.floor(Math.random() * this.transcriptions.length)]
     }
 }
 

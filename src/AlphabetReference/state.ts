@@ -1,10 +1,10 @@
 import { writable } from 'svelte/store'
 
-type Value = 'open' | 'close'
+type Value = 'open' | 'closed'
 
 export type State = ReturnType<typeof constructState>
 export const constructState = () => {
-    const { subscribe, set } = writable<Value>('close')
+    const { subscribe, set } = writable<Value>('closed')
 
     return {
         subscribe,
@@ -12,7 +12,7 @@ export const constructState = () => {
             set('open')
         },
         close() {
-            set('close')
+            set('closed')
         }
     }
 }

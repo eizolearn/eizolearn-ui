@@ -24,7 +24,7 @@ export const constructState = () => {
                 set('input')
             }, SUCCESS_TIMEOUT)
         },
-        skipped() {
+        skip() {
             set('skipped')
 
             setTimeout(() => {
