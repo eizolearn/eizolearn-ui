@@ -11,7 +11,7 @@ export const constructSettings = () => {
     }
     try {
         const locallyStoredSettings = localStorage.getItem('settings')
-        if (!!locallyStoredSettings) {
+        if (locallyStoredSettings) {
             initialSettings = {
                 ...initialSettings,
                 ...JSON.parse(locallyStoredSettings)

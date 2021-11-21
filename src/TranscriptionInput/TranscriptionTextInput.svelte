@@ -48,7 +48,7 @@
     })
 </script>
 
-<style>
+<style lang="postcss">
     .isFailure {
         @apply line-through;
     }

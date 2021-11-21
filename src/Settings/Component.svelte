@@ -1,8 +1,8 @@
 <script lang="ts" context="module">
     const TEXT = {
         'Game input': 'Game input',
-        'Text': 'Text',
-        'Options': 'Options'
+        Text: 'Text',
+        Options: 'Options',
     }
 </script>
 
@@ -13,6 +13,7 @@
     import { constructSettings, Settings, SettingsValue } from './settings'
     import { constructState, State as SettingsState } from './state'
     import SettingsOption from './SettingsOption.svelte'
+    import RadioButton from './RadioButton.svelte'
 
     const dispatch = createEventDispatcher<{ restart: void }>()
     export let state: SettingsState = constructState()
@@ -35,12 +36,6 @@
             isModeExpanded = false
         }
     })
-
-    const changeExpandMode = (event) => {
-        if (event.target.tagName !== 'INPUT' && event.target.tagName !== 'LABEL') {
-            isModeExpanded = !isModeExpanded
-        }
-    }
 </script>
 
 <style>
@@ -53,9 +48,6 @@
     .restartButton:disabled {
         opacity: 0.2;
     }
-    input[type="radio"] {
-        transform: translateY(-0.075em);
-    }
 </style>
 
 {#if $state === 'open'}
@@ -64,36 +56,30 @@
             <SettingsOption class="w-full max-w-xl flex flex-col items-baseline">
                 <div
                     class="w-full flex justify-around items-stretch"
-                    on:click="{changeExpandMode}"
+                    on:click="{() => (isModeExpanded = !isModeExpanded)}"
                 >
                     <span>{TEXT['Game input']}</span>
+
                     <div>
                         <span class="opacity-50">{settingsToApply.input}</span>
-                        <div class="max-h-0 overflow-hidden height-transition" class:expanded="{isModeExpanded}">
-                            <label class="flex items-center mb-0">
-                                <input
-                                    type="radio"
-                                    class="rounded-full checked:bg-secondary secondary w-5 h-5 mr-2 appearance-none border-2 border-secondary border-solid bg-transparent"
-                                    bind:group="{settingsToApply.input}"
-                                    name="game_mode"
-                                    value="Text"
-                                />
-                                {TEXT['Text']}
-                            </label>
 
-                            <label class="flex items-center">
-                                <input
-                                    type="radio"
-                                    class="rounded-full checked:bg-secondary secondary w-5 h-5 mr-2 appearance-none border-2 border-secondary border-solid bg-transparent"
-                                    bind:group="{settingsToApply.input}"
-                                    name="game_mode"
-                                    value="Options"
-                                />
+                        <div
+                            class="max-h-0 overflow-hidden height-transition"
+                            class:expanded="{isModeExpanded}"
+                            on:click="{e => {
+                                e.stopPropagation()
+                            }}"
+                        >
+                            <RadioButton name="gameMode" bind:group="{settingsToApply.input}" value="Text">
+                                {TEXT['Text']}
+                            </RadioButton>
+                            <RadioButton name="gameMode" bind:group="{settingsToApply.input}" value="Options">
                                 {TEXT['Options']}
-                            </label><br />
+                            </RadioButton>
                         </div>
                     </div>
-                    <ExpandMoreIcon class="{isModeExpanded ? 'duration-200 rotate-180' : 'duration-200'}" />
+
+                    <ExpandMoreIcon class="duration-200 {isModeExpanded ? 'rotate-180' : ''}" />
                 </div>
             </SettingsOption>
         </div>
