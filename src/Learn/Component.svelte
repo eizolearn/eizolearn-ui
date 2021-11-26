@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { onMount } from 'svelte'
+    import { createEventDispatcher } from 'svelte'
     import type { TranscripedSymbol, TranscripedAlphabet } from '../Alphabet/alphabet'
     import type { State as AlphabetReferenceState } from '../AlphabetReference/state'
     import type { State as TranscriptionInputState } from '../TranscriptionInput/state'
@@ -12,7 +12,9 @@
 
     export let alphabet: TranscripedAlphabet
     export let settings: Settings
-    export const state = constructState(alphabet)
+
+    const state = constructState(alphabet)
+    const dispatch = createEventDispatcher<{ learnt: void }>()
 
     let inputState: TranscriptionInputState
     let alphabetReferenceState: AlphabetReferenceState
@@ -22,21 +24,23 @@
     $: isSuccessWithSuggestion = $inputState === 'success with suggestion'
     $: isFailure = $inputState === 'failure'
     $: isSkipped = $inputState === 'skipped'
-
-    onMount(() => {
-        inputState.subscribe(value => {
-            if (value === 'input') {
-                currentTranscripedSymbol = alphabet.random
-            } else if (value === 'success' || value === 'success with suggestion') {
-                state.hit(currentTranscripedSymbol.symbol)
-            } else if (value === 'failure' || value === 'skipped') {
-                state.miss()
-            }
-        })
-    })
+    $: (() => {
+        if ($inputState === 'input') {
+            currentTranscripedSymbol = alphabet.random
+        } else if ($inputState === 'success' || $inputState === 'success with suggestion') {
+            state.hit(currentTranscripedSymbol.symbol)
+        } else if ($inputState === 'failure' || $inputState === 'skipped') {
+            state.miss()
+        }
+    })()
+    $: (() => {
+        if ($state === 'learnt') {
+            dispatch('learnt')
+        }
+    })()
 </script>
 
-<style>
+<style lang="postcss">
     .isSuccess {
         @apply bg-gradient-to-t;
         @apply from-success;
@@ -75,7 +79,7 @@
         >
 
         <div class="flex justify-center w-20">
-            {#if !!alphabetReferenceState}
+            {#if alphabetReferenceState}
                 <AlphabetReferenceIcon state="{alphabetReferenceState}" />
             {/if}
         </div>
@@ -90,6 +94,5 @@
         settings="{settings}"
         bind:inputState
     />
-
     <AlphabetReference alphabet="{alphabet}" bind:state="{alphabetReferenceState}" />
 </div>

@@ -29,6 +29,6 @@ export const constructState = (alphabet: TranscripedAlphabet) => {
                 value = false
                 set('learning')
             }
-        },
+        }
     }
 }
