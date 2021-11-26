@@ -1,22 +1,19 @@
 <script lang="ts">
-    import Header from './Header/Component.svelte'
-    import Learn from './Learn/Component.svelte'
-    import type { State as LearnState } from './Learn/state'
     import type { Settings } from './Settings/settings'
     import type { State as SettingsState } from './Settings/state'
     import Alphabets from './Alphabet/alphabet'
-    import Finish from './Finish/Component.svelte'
     import SettingsComponent from './Settings/Component.svelte'
+    import Header from './Header/Component.svelte'
+    import Learn from './Learn/Component.svelte'
+    import Finish from './Finish/Component.svelte'
     import { tick } from 'svelte'
 
-    let learnState: LearnState | undefined
     let settings: Settings | undefined
     let settingsState: SettingsState | undefined
     let inLearning = true
 
     const restart = async () => {
         inLearning = false
-        learnState = undefined
         await tick()
         inLearning = true
     }
@@ -33,17 +30,23 @@
         {#if settingsState}
             <Header settingsState="{settingsState}" />
         {/if}
-        {#if inLearning && !!settings}
-            {#if !learnState || $learnState === 'learning'}
-                <Learn alphabet="{Alphabets.KATAKANA.english}" settings="{settings}" bind:state="{learnState}" />
-            {:else}
-                <Finish
-                    on:refresh="{() => {
-                        learnState = undefined
-                    }}"
-                />
-            {/if}
+
+        {#if inLearning && settings}
+            <Learn
+                alphabet="{Alphabets.KATAKANA.english}"
+                settings="{settings}"
+                on:learnt="{() => {
+                    inLearning = false
+                }}"
+            />
+        {:else}
+            <Finish
+                on:refresh="{() => {
+                    inLearning = true
+                }}"
+            />
         {/if}
+
         <SettingsComponent on:restart="{restart}" bind:state="{settingsState}" bind:settings />
     </div>
 </main>
