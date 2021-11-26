@@ -37,7 +37,7 @@ module.exports = {
                 'max-height': 'height',
             },
             height: {
-                page: 'calc(100vh - 70px)'
+                page: 'calc(100% - 70px)'
             },
             spacing: {
                 header: '70px',
