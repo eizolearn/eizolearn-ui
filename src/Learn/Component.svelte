@@ -62,7 +62,7 @@
 </style>
 
 <div
-    class="max-h-full flex flex-col items-center text-primary mx-auto object-contain"
+    class="max-h-page flex flex-col items-center text-primary mx-auto object-contain"
     class:isSuccess="{isSuccess || isSuccessWithSuggestion}"
     class:isFailure
     class:isSkipped
