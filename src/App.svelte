@@ -23,10 +23,15 @@
     @tailwind base;
     @tailwind components;
     @tailwind utilities;
+
+    :global(html),
+    :global(body) {
+        height: 100%;
+    }
 </style>
 
 <main>
-    <div class="mx-auto h-screen w-screen bg-white">
+    <div class="mx-auto h-full w-screen bg-white">
         {#if settingsState}
             <Header settingsState="{settingsState}" />
         {/if}
