@@ -3,8 +3,7 @@ import { TEST } from './test'
 import { KATAKANA } from './katakana'
 
 
-// TODO: move with multiple languages support
-export type TranscriptionLanguage = 'english'
+export type TranscriptionLanguage = 'english' | 'russian'
 
 export type Transcription = {
     readonly value: string
@@ -13,7 +12,7 @@ export type Transcription = {
 
 export type TranscriptionValidationResult = 'correct' | 'noncanonical' | 'incorrect'
 
-export class TranscripedSymbol {
+export class TranscribedSymbol {
     constructor(
         readonly symbol: string,
         readonly transcriptions: Transcription[],
@@ -50,10 +49,10 @@ export class TranscripedSymbol {
     }
 }
 
-export class TranscripedAlphabet {
-    constructor(readonly letters: TranscripedSymbol[]) {}
+export class TranscribedAlphabet {
+    constructor(readonly letters: TranscribedSymbol[]) {}
 
-    get random(): TranscripedSymbol {
+    get random(): TranscribedSymbol {
         return this.letters[Math.floor(Math.random() * this.letters.length)]
     }
 
@@ -63,15 +62,15 @@ export class TranscripedAlphabet {
 }
 
 export type Alphabet = {
-    readonly [language in TranscriptionLanguage]: TranscripedAlphabet
+    readonly [language in TranscriptionLanguage]: TranscribedAlphabet
 }
 
-const constructAlpabet = (alphabet: InternalAlphabet): Alphabet => {
+const constructAlphabet = (alphabet: InternalAlphabet): Alphabet => {
     return new Proxy({}, { get: (target: Record<string, unknown>, language: TranscriptionLanguage) => {
         if (!(language in target)) {
-            target[language] = new TranscripedAlphabet(
+            target[language] = new TranscribedAlphabet(
                 Object.entries(alphabet).map(([symbol, transcriptionByLanguage]) => {
-                    return new TranscripedSymbol(
+                    return new TranscribedSymbol(
                         symbol,
                         transcriptionByLanguage[language].displayed.map(transcription => {
                             return {
@@ -97,6 +96,7 @@ const toExport = {
     TEST,
     KATAKANA,
 }
+
 type Exported = {
     [alphabetName in keyof typeof toExport]: Alphabet
 }
@@ -104,4 +104,4 @@ type Exported = {
 export default Object.fromEntries(Object.entries({
     TEST,
     KATAKANA,
-}).map(([key, value]) => [key, constructAlpabet(value)])) as Exported
+}).map(([key, value]) => [key, constructAlphabet(value)])) as Exported

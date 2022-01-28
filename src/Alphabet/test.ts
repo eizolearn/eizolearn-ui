@@ -5,6 +5,9 @@ export const TEST: InternalAlphabet = {
         'english': {
             displayed: ['a'], accepted: ['b'],
         },
+        'russian': {
+            displayed: ['а'], accepted: ['б'],
+        },
         displayPositioning: {
             x: 0, y: 0
         }

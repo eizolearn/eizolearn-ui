@@ -5,17 +5,17 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte'
     import { shuffle } from '../utils/random'
-    import type { TranscripedSymbol, TranscriptionValidationResult, TranscripedAlphabet } from '../Alphabet/alphabet'
+    import type { TranscribedSymbol, TranscriptionValidationResult, TranscribedAlphabet } from '../Alphabet/alphabet'
     import type { State } from './state'
 
-    export let alphabet: TranscripedAlphabet
-    export let currentTranscripedSymbol: TranscripedSymbol
+    export let alphabet: TranscribedAlphabet
+    export let currentTranscribedSymbol: TranscribedSymbol
     export let inputState: State
 
     const dispatch = createEventDispatcher<{ validated: TranscriptionValidationResult | 'skipped' }>()
 
     $: options = (() => {
-        const choosen = new Set<string>([currentTranscripedSymbol.displayedCanonicalTranscription.value])
+        const choosen = new Set<string>([currentTranscribedSymbol.displayedCanonicalTranscription.value])
         while (choosen.size != MAX_OPTIONS) {
             choosen.add(alphabet.random.randomTranscription.value)
         }
@@ -48,7 +48,7 @@
             class:enabledOptionButton="{$inputState === 'input'}"
             type="button"
             value="{option.toLocaleUpperCase()}"
-            on:click="{() => dispatch('validated', currentTranscripedSymbol.validateTranscription(option))}"
+            on:click="{() => dispatch('validated', currentTranscribedSymbol.validateTranscription(option))}"
             disabled="{$inputState !== 'input'}"
         />
     {/each}

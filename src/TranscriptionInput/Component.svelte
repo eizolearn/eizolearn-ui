@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type { TranscripedSymbol, TranscriptionValidationResult, TranscripedAlphabet } from '../Alphabet/alphabet'
+    import type { TranscribedSymbol, TranscriptionValidationResult, TranscribedAlphabet } from '../Alphabet/alphabet'
     import type { Settings } from '../Settings/settings'
     import { constructState } from './state'
     import TranscriptionOptionsInput from './TranscriptionOptionsInput.svelte'
     import TranscriptionTextInput from './TranscriptionTextInput.svelte'
 
-    export let alphabet: TranscripedAlphabet
-    export let currentTranscripedSymbol: TranscripedSymbol
+    export let alphabet: TranscribedAlphabet
+    export let currentTranscribedSymbol: TranscribedSymbol
     export let settings: Settings
     export const inputState = constructState()
 
@@ -27,7 +27,7 @@
 {#if $settings.input === 'Text'}
     <div class="flex items-center bg-white rounded-lg text-input border border-primary w-60 h-9 mx-auto">
         <TranscriptionTextInput
-            currentTranscripedSymbol="{currentTranscripedSymbol}"
+            currentTranscribedSymbol="{currentTranscribedSymbol}"
             inputState="{inputState}"
             on:validated="{validate}"
         />
@@ -35,7 +35,7 @@
 {:else if $settings.input === 'Options'}
     <TranscriptionOptionsInput
         alphabet="{alphabet}"
-        currentTranscripedSymbol="{currentTranscripedSymbol}"
+        currentTranscribedSymbol="{currentTranscribedSymbol}"
         inputState="{inputState}"
         on:validated="{validate}"
     />
