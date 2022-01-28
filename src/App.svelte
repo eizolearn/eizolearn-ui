@@ -30,7 +30,7 @@
     }
 </style>
 
-<main>
+<main class="h-full">
     <div class="mx-auto h-full w-screen bg-white">
         {#if settingsState}
             <Header settingsState="{settingsState}" />
@@ -38,7 +38,7 @@
 
         {#if inLearning && settings}
             <Learn
-                alphabet="{Alphabets.KATAKANA.english}"
+                alphabet="{Alphabets.KATAKANA}"
                 settings="{settings}"
                 on:learnt="{() => {
                     inLearning = false

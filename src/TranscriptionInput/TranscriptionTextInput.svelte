@@ -5,13 +5,13 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte'
     import type { State } from './state'
-    import type { TranscripedSymbol, TranscriptionValidationResult } from '../Alphabet/alphabet'
+    import type { TranscribedSymbol, TranscriptionValidationResult } from '../Alphabet/alphabet'
     import CheckMark from './checkmark.svg'
     import Cross from './cross.svg'
     import Enter from './enter.svg'
     import SkippedCross from './skipped.svg'
 
-    export let currentTranscripedSymbol: TranscripedSymbol
+    export let currentTranscribedSymbol: TranscribedSymbol
     export let inputState: State
 
     const dispatch = createEventDispatcher<{ validated: TranscriptionValidationResult | 'skipped' }>()
@@ -20,7 +20,7 @@
     let transcriptionInput: string
 
     $: isFailure = $inputState === 'failure' || $inputState === 'skipped'
-    $: if (currentTranscripedSymbol.validateTranscription(transcriptionInput) === 'correct') {
+    $: if (currentTranscribedSymbol.validateTranscription(transcriptionInput) === 'correct') {
         localMaxLength = transcriptionInput.length
         dispatch('validated', 'correct')
     } else if (transcriptionInput.length > localMaxLength) {
@@ -36,7 +36,7 @@
             if (transcriptionInput.trim() === '') {
                 dispatch('validated', 'skipped')
             } else {
-                dispatch('validated', currentTranscripedSymbol.validateTranscription(transcriptionInput))
+                dispatch('validated', currentTranscribedSymbol.validateTranscription(transcriptionInput))
             }
         }
     }

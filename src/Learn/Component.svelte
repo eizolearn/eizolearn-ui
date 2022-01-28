@@ -1,6 +1,5 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte'
-    import type { TranscripedSymbol, TranscripedAlphabet } from '../Alphabet/alphabet'
     import type { State as AlphabetReferenceState } from '../AlphabetReference/state'
     import type { State as TranscriptionInputState } from '../TranscriptionInput/state'
     import type { Settings } from '../Settings/settings'
@@ -9,16 +8,21 @@
     import AlphabetReferenceIcon from '../AlphabetReference/Icon.svelte'
     import Score from '../Score/Component.svelte'
     import TranscriptionInput from '../TranscriptionInput/Component.svelte'
+    import type { Alphabet } from '../Alphabet/alphabet'
+    import type { TranscribedAlphabet } from '../Alphabet/alphabet'
 
-    export let alphabet: TranscripedAlphabet
+    export let alphabet: Alphabet
     export let settings: Settings
 
-    const state = constructState(alphabet)
+    const currentAlphabet: TranscribedAlphabet = alphabet[$settings.inputLanguage]
+
+    const state = constructState(currentAlphabet)
     const dispatch = createEventDispatcher<{ learnt: void }>()
 
     let inputState: TranscriptionInputState
     let alphabetReferenceState: AlphabetReferenceState
-    let currentTranscripedSymbol: TranscripedSymbol = alphabet.random
+
+    let currentTranscribedSymbol = currentAlphabet.random
 
     $: isSuccess = $inputState === 'success'
     $: isSuccessWithSuggestion = $inputState === 'success with suggestion'
@@ -26,9 +30,9 @@
     $: isSkipped = $inputState === 'skipped'
     $: (() => {
         if ($inputState === 'input') {
-            currentTranscripedSymbol = alphabet.random
+            currentTranscribedSymbol = currentAlphabet.random
         } else if ($inputState === 'success' || $inputState === 'success with suggestion') {
-            state.hit(currentTranscripedSymbol.symbol)
+            state.hit(currentTranscribedSymbol.symbol)
         } else if ($inputState === 'failure' || $inputState === 'skipped') {
             state.miss()
         }
@@ -62,7 +66,7 @@
 </style>
 
 <div
-    class="max-h-page flex flex-col items-center text-primary mx-auto object-contain"
+    class="h-full flex flex-col items-center text-primary mx-auto object-contain"
     class:isSuccess="{isSuccess || isSuccessWithSuggestion}"
     class:isFailure
     class:isSkipped
@@ -75,7 +79,7 @@
         </div>
 
         <span class="text-symbol fold:text-symbol-fold self-end justify-self-center"
-            >{currentTranscripedSymbol.symbol}</span
+            >{currentTranscribedSymbol.symbol}</span
         >
 
         <div class="flex justify-center w-20">
@@ -86,13 +90,13 @@
     </div>
 
     <p class="{isFailure || isSkipped || isSuccessWithSuggestion ? '' : 'invisible'} text-transcription">
-        {currentTranscripedSymbol.displayedTranscription}
+        {currentTranscribedSymbol.displayedTranscription}
     </p>
     <TranscriptionInput
-        alphabet="{alphabet}"
-        currentTranscripedSymbol="{currentTranscripedSymbol}"
+        alphabet="{currentAlphabet}"
+        currentTranscribedSymbol="{currentTranscribedSymbol}"
         settings="{settings}"
         bind:inputState
     />
-    <AlphabetReference alphabet="{alphabet}" bind:state="{alphabetReferenceState}" />
+    <AlphabetReference alphabet="{currentAlphabet}" bind:state="{alphabetReferenceState}" />
 </div>

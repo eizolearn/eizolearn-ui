@@ -1,14 +1,14 @@
 <script lang="ts">
     import { groupBy } from '../utils/functional'
-    import type { TranscripedAlphabet, TranscripedSymbol } from '../Alphabet/alphabet'
+    import type { TranscribedAlphabet, TranscribedSymbol } from '../Alphabet/alphabet'
     import { constructState, State as AlphabetReferenceState } from './state'
     import Close from './close-icon.svg'
 
-    export let alphabet: TranscripedAlphabet
+    export let alphabet: TranscribedAlphabet
     export let state: AlphabetReferenceState = constructState()
 
     $: groupedAlphabet = Object.values(groupBy(alphabet.letters, symbol => symbol.displayPositioning.y))
-    function padSymbols(symbols: TranscripedSymbol[]): (TranscripedSymbol | undefined)[] {
+    function padSymbols(symbols: TranscribedSymbol[]): (TranscribedSymbol | undefined)[] {
         return Object.values({
             0: undefined,
             1: undefined,

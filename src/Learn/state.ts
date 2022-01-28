@@ -1,11 +1,11 @@
 import { writable } from 'svelte/store'
-import type { TranscripedAlphabet } from '../Alphabet/alphabet'
+import type { TranscribedAlphabet } from '../Alphabet/alphabet'
 
 type Value = 'learnt' | 'learning'
 const THRESHOLD = 2
 
 export type State = ReturnType<typeof constructState>
-export const constructState = (alphabet: TranscripedAlphabet) => {
+export const constructState = (alphabet: TranscribedAlphabet) => {
     const successHistory: Map<string, number> = new Map()
     const isLearnt = () =>
         successHistory.size === alphabet.length &&

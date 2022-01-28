@@ -1,13 +1,16 @@
 import { writable } from 'svelte/store'
+import type {TranscriptionLanguage} from "../Alphabet/alphabet";
 
 export type SettingsValue = {
     input: 'Text' | 'Options',
+    inputLanguage: TranscriptionLanguage
 }
 
 export type Settings = ReturnType<typeof constructSettings>
 export const constructSettings = () => {
     let initialSettings: SettingsValue = {
         input: 'Text',
+        inputLanguage: 'english'
     }
     try {
         const locallyStoredSettings = localStorage.getItem('settings')
